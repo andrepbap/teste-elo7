@@ -30,7 +30,7 @@
                 <ImageView
                     android:id="@+id/imageView4"
                     android:layout_width="0dp"
-                    android:layout_height="300dp"
+                    android:layout_height="250dp"
                     android:contentDescription="@string/img_banner"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -60,14 +60,107 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
                 <LinearLayout
-                    android:id="@+id/culturasLinearLayout"
+                    android:id="@+id/culturas_linear_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="0dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="@id/imageView4"
                     app:layout_constraintStart_toStartOf="@id/imageView4"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView4"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/imageView4">
+
+                    <TextView
+                        android:id="@+id/main_titulo_culturas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="@string/titulo_culturas"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:id="@+id/main_texto_culturas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="@string/texto_culturas"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/areas_linear_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/lightGray"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="@id/culturas_linear_layout"
+                    app:layout_constraintStart_toStartOf="@id/culturas_linear_layout"
+                    app:layout_constraintTop_toBottomOf="@id/culturas_linear_layout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="@string/titulo_areas"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/main_rodape_background"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/areas_linear_layout"
+                    app:layout_constraintStart_toStartOf="@id/areas_linear_layout"
+                    app:layout_constraintTop_toBottomOf="@id/areas_linear_layout"
+                    app:srcCompat="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/main_rodape_titulo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layout_constraintVertical_bias="0.0"
+                    android:textColor="@android:color/white"
+                    android:text="@string/titulo_rodape"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toStartOf="@id/main_rodape_background"
+                    app:layout_constraintEnd_toEndOf="@id/main_rodape_background"
+                    android:gravity="center"
+                    app:layout_constraintTop_toTopOf="@id/main_rodape_background"
+                    app:layout_constraintBottom_toBottomOf="@id/main_rodape_background"/>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/main_social_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/main_rodape_background"
+                    app:layout_constraintEnd_toEndOf="@id/main_rodape_background"
+                    app:layout_constraintStart_toStartOf="@id/main_rodape_background"
+                    app:layout_constraintTop_toBottomOf="@id/main_rodape_titulo"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/facebook" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/linkedin" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

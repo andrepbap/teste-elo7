@@ -13,10 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexboxLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import andrepbap.carreiraselo7.R;
+import andrepbap.carreiraselo7.model.Area;
 import andrepbap.carreiraselo7.model.Cultura;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
         culturas.add(c2);
         culturas.add(c3);
 
-        LinearLayout culturasLinearLayout = findViewById(R.id.culturasLinearLayout);
+        LinearLayout culturasLinearLayout = findViewById(R.id.culturas_linear_layout);
         LayoutInflater inflater = LayoutInflater.from(this);
+
         for (Cultura cultura : culturas) {
             View view  = inflater.inflate(R.layout.cultura, culturasLinearLayout, false);
 
@@ -55,6 +59,30 @@ public class MainActivity extends AppCompatActivity {
 
             culturasLinearLayout.addView(view);
         }
+
+        List<Area> areas = new ArrayList<Area>();
+        areas.add(new Area("@drawable/ic_engenharia", "ENGENHARIA"));
+        areas.add(new Area("@drawable/ic_atandimento", "ATENDIMENTO"));
+        areas.add(new Area("@drawable/ic_comunicacao_mkt", "COMUNICAÇÃO E MARKETING"));
+        areas.add(new Area("@drawable/ic_desenvolvimento_vendedores", "DESENVOLVIMENTO DE VENDEDORES"));
+
+        LinearLayout areasLinearLayout = findViewById(R.id.areas_linear_layout);
+        LayoutInflater inflaterAreas = LayoutInflater.from(this);
+
+        for (int i = 0; i < areas.size(); i=i+2) {
+            View view = inflater.inflate(R.layout.area_row, areasLinearLayout, false);
+
+            TextView textLeft = view.findViewById(R.id.area_row_text_left);
+            textLeft.setText(areas.get(i).getTitulo());
+
+            TextView textRight = view.findViewById(R.id.area_row_text_right);
+            textRight.setText(areas.get(i + 1).getTitulo());
+
+            areasLinearLayout.addView(view);
+        }
+
+        FlexboxLayout flexboxLayout = (FlexboxLayout) findViewById(R.id.main_social_container);
+
 
     }
 }
