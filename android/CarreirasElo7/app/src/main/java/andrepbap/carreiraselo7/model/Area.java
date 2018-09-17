@@ -1,6 +1,8 @@
 package andrepbap.carreiraselo7.model;
 
-public class Area {
+import java.io.Serializable;
+
+public class Area implements Serializable{
 
     private String imagem;
     private String titulo;

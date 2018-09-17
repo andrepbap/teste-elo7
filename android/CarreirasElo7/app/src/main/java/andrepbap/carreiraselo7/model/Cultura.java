@@ -1,6 +1,8 @@
 package andrepbap.carreiraselo7.model;
 
-public class Cultura {
+import java.io.Serializable;
+
+public class Cultura  implements Serializable{
 
     private String imagem;
     private String titulo;

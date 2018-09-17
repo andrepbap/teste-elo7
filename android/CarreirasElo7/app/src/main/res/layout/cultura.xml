@@ -38,16 +38,17 @@
 
     <TextView
         android:id="@+id/cultura_texto"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/cultura_titulo"
-        app:layout_constraintStart_toStartOf="@+id/cultura_titulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cultura_titulo"
         tools:text="Texto" />
 </android.support.constraint.ConstraintLayout>

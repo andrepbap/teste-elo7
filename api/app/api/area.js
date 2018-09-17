@@ -4,39 +4,41 @@ module.exports = function (app) {
     var api = {};
 
     api.getAll = function (req, res) {
+        
+        console.log("Recebido GET request para /area");
 
         var areas = [
             {
                 titulo: "engenharia",
-                img: "ic-engenharia.png"
+                imagem: "@drawable/ic_engenharia"
             },
             {
                 titulo: "atendimento",
-                img: "ic-atendimento.png"
+                imagem: "@drawable/ic_atendimento"
             },
             {
                 titulo: "comunicação e marketing",
-                img: "ic-comunicacao-mkt.png"
+                imagem: "@drawable/ic_comunicacao_mkt"
             },
             {
                 titulo: "desenvolvimento de vendedores",
-                img: "ic-desenvolvimento-vendedores.png"
+                imagem: "@drawable/ic_desenvolvimento_vendedores"
             },
             {
                 titulo: "design",
-                img: "ic-design.png"
+                imagem: "@drawable/ic_design"
             },
             {
                 titulo: "produto",
-                img: "ic-produto.png"
+                imagem: "@drawable/ic_produto"
             },
             {
                 titulo: "trust & safety",
-                img: "ic-trustnsafety.png"
+                imagem: "@drawable/ic_trustnsafety"
             },
             {
                 titulo: "administrativo / financeiro",
-                img: "ic-adm-financeiro.png"
+                imagem: "@drawable/ic_adm_financeiro"
             }
         ];
 
