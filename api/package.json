@@ -1,0 +1,24 @@
+{
+  "name": "API Teste Elo7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "engines": {
+    "node": ">=9.8"
+  },
+  "apidoc": {
+    "version": "1.0.0",
+    "title": "Custom apiDoc browser title",
+    "url": "https://localhost:3000"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "consign": "^0.1.6",
+    "express": "^4.16.3"
+  }
+}
