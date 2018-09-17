@@ -66,19 +66,16 @@ public class MainActivity extends AppCompatActivity {
         areas.add(new Area("@drawable/ic_comunicacao_mkt", "COMUNICAÇÃO E MARKETING"));
         areas.add(new Area("@drawable/ic_desenvolvimento_vendedores", "DESENVOLVIMENTO DE VENDEDORES"));
 
-        LinearLayout areasLinearLayout = findViewById(R.id.areas_linear_layout);
+        FlexboxLayout areasContainer = (FlexboxLayout) findViewById(R.id.main_areas_flexbox);
         LayoutInflater inflaterAreas = LayoutInflater.from(this);
 
-        for (int i = 0; i < areas.size(); i=i+2) {
-            View view = inflater.inflate(R.layout.area_row, areasLinearLayout, false);
+        for (int i = 0; i < areas.size(); i++) {
+            View view = inflater.inflate(R.layout.area, areasContainer, false);
 
-            TextView textLeft = view.findViewById(R.id.area_row_text_left);
+            TextView textLeft = view.findViewById(R.id.area_titulo);
             textLeft.setText(areas.get(i).getTitulo());
 
-            TextView textRight = view.findViewById(R.id.area_row_text_right);
-            textRight.setText(areas.get(i + 1).getTitulo());
-
-            areasLinearLayout.addView(view);
+            areasContainer.addView(view);
         }
 
         FlexboxLayout flexboxLayout = (FlexboxLayout) findViewById(R.id.main_social_container);
