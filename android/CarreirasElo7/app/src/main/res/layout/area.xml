@@ -39,6 +39,7 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="TextView"
+        android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/area_background"
         app:layout_constraintEnd_toEndOf="@+id/area_background"

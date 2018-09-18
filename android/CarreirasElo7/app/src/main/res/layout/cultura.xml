@@ -30,11 +30,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="@+id/cultura_imagem"
         app:layout_constraintStart_toStartOf="@+id/cultura_imagem"
-        app:layout_constraintTop_toBottomOf="@+id/cultura_imagem"
-        tools:text="TITULO" />
+        app:layout_constraintTop_toBottomOf="@+id/cultura_imagem" />
 
     <TextView
         android:id="@+id/cultura_texto"
@@ -49,6 +49,5 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cultura_titulo"
-        tools:text="Texto" />
+        app:layout_constraintTop_toBottomOf="@+id/cultura_titulo" />
 </android.support.constraint.ConstraintLayout>

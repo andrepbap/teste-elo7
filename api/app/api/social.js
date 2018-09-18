@@ -8,38 +8,38 @@ module.exports = function (app) {
         var socials = [
             {
                 nome: "facebook",
-                img: "facebook.png",
-                link: "#/"
+                imagem: app.get("img-url") + "facebook.png",
+                link: "https://www.facebook.com/Elo7br"
             },
             {
                 nome: "instagram",
-                img: "instagram.png",
-                link: "#/"
+                imagem: app.get("img-url") + "instagram.png",
+                link: "https://instagram.com/elo7br"
             },
             {
                 nome: "googleplus",
-                img: "googleplus.png",
-                link: "#/"
+                imagem: app.get("img-url") + "googleplus.png",
+                link: "https://plus.google.com/+Elo7Br"
             },
             {
-                nome: "pinterest-light",
-                img: "pinterest-light.png",
-                link: "#/"
+                nome: "pinterest",
+                imagem: app.get("img-url") + "pinterest-light.png",
+                link: "https://pinterest.com/elo7br/"
             },
             {
                 nome: "twitter",
-                img: "twitter.png",
-                link: "#/"
+                imagem: app.get("img-url") + "twitter.png",
+                link: "https://twitter.com/elo7"
             },
             {
                 nome: "linkedin",
-                img: "linkedin.png",
-                link: "#/"
+                imagem: app.get("img-url") + "linkedin.png",
+                link: "https://br.linkedin.com/company/elo7"
             },
             {
                 nome: "blog",
-                img: "BLOG.png",
-                link: "#/"
+                imagem: app.get("img-url") + "BLOG.png",
+                link: "https://blog.elo7.com.br/"
             }
         ];
 

@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="lightGray">#F2F2F2</color>
+    <color name="menuPrimary">#fafafa</color>
+    <color name="menuText">#3A9E9C</color>
 </resources>
