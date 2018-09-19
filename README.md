@@ -4,7 +4,7 @@ Nesse projeto,  foi criado um aplicativo Android que simula a página de carreir
 
 Todo o conteúdo do layout, exceto as imagens referente ao logo e cabeçalho, é carregado dinamicamente no momento da criação da activity. Esse conteúdo vem como resposta de uma API que simula a obtenção desses objetos de uma banco de dados.
 
-Esse aplicativo foi desenvolvido de forma que fosse facilmente expandido e utiliza ferramentas e práticas que possibilitam um desenvolvimento mais simples e rápido.
+Esse aplicativo foi desenvolvido de forma a ser facilmente expandido e utiliza ferramentas e práticas que possibilitam um desenvolvimento simples e rápido.
 
 ## Instalação e execução da API
 
@@ -20,10 +20,10 @@ O endereço de acesso à API será mostrado na última linha do console. A API t
 
 ## Execução do aplicativo
 
-Após importar o projeto, será necessário indicar o endereço da API para o módulo que cria o serviço HTTP. Para isso, substitua o conteúdo de "baseUrl()" no arquivo ApiModule.java localizado no pacote "module", pelo endereço obtido no momento da execução do servidor, conforme o código abaixo:
+Após importar o projeto Android, será necessário indicar o endereço da API para o módulo que cria o serviço HTTP. Para isso, substitua o conteúdo de "baseUrl()" no arquivo ApiModule.java localizado no pacote "module", pelo endereço obtido no momento da execução do servidor, conforme o código abaixo:
 
 ```java
-    public ApiService getChatService () {
+    public ApiService getApiService () {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://endereco-da-api/")
                 .addConverterFactory(GsonConverterFactory.create())
