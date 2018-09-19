@@ -5,13 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/menuPrimary</item>
         <item name="colorPrimaryDark">@android:color/darker_gray</item>
-        <item name="android:actionMenuTextColor">@color/menuText</item>
-        <item name="actionOverflowButtonStyle">@style/AppTheme.BotaoMenu</item>
+        <item name="actionMenuTextColor">@color/menuText</item>
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
+        <item name="actionOverflowButtonStyle">@style/AppTheme.ActionButton.Overflow</item>
     </style>
 
-    <style name="AppTheme.BotaoMenu">
-        <item name="android:tint">@color/menuText</item>
+    <style name="AppTheme.ActionButton.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="tint">@color/menuText</item>
     </style>
 
     <style name="AppTheme.ActionBar">

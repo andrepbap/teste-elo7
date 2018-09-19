@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.squareup.picasso.Picasso;
@@ -30,12 +31,14 @@ import andrepbap.carreiraselo7.R;
 import andrepbap.carreiraselo7.adapter.AreasSpinnerAdapter;
 import andrepbap.carreiraselo7.app.ApiApplication;
 import andrepbap.carreiraselo7.callback.GetAreasCallback;
+import andrepbap.carreiraselo7.callback.GetConteudoPaginaCallback;
 import andrepbap.carreiraselo7.callback.GetCulturasCallback;
 import andrepbap.carreiraselo7.callback.GetMenuLinksCallback;
 import andrepbap.carreiraselo7.callback.GetSocialCallback;
 import andrepbap.carreiraselo7.common.Funcoes;
 import andrepbap.carreiraselo7.component.ApiComponent;
 import andrepbap.carreiraselo7.model.Area;
+import andrepbap.carreiraselo7.model.ConteudoPagina;
 import andrepbap.carreiraselo7.model.Cultura;
 import andrepbap.carreiraselo7.model.Social;
 import andrepbap.carreiraselo7.model.MenuLink;
@@ -43,12 +46,19 @@ import andrepbap.carreiraselo7.service.ApiService;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Injeta o serviço da API via dagger
     @Inject
     public ApiService apiService;
     private ApiComponent component;
 
     private Menu menu;
+
+    // Objetos que serão carregados na tela através da API
     private ArrayList<MenuLink> menuLinks;
+    private ArrayList<Cultura> culturas;
+    private ArrayList<Area> areas;
+    private ArrayList<Social> socials;
+    private ConteudoPagina conteudoPagina;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,27 +70,74 @@ public class MainActivity extends AppCompatActivity {
         component.inject(this);
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("novo_conteudo"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_culturas"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_areas"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_socials"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novos_links"));
 
-        apiService.getCulturas()
-                .enqueue(new GetCulturasCallback(this));
+        // Capta savedInstanceState para não precisar chamar a api novamente toda vez que a tela for remontada
+        if (savedInstanceState != null) {
+            conteudoPagina = (ConteudoPagina) savedInstanceState.getSerializable("conteudoPagina");
+            menuLinks = (ArrayList<MenuLink>) savedInstanceState.getSerializable("menuLinks");
+            culturas = (ArrayList<Cultura>) savedInstanceState.getSerializable("culturas");
+            areas = (ArrayList<Area>) savedInstanceState.getSerializable("areas");
+            socials = (ArrayList<Social>) savedInstanceState.getSerializable("socials");
+        }
 
-        apiService.getAreas()
-                .enqueue(new GetAreasCallback(this));
+        // Faz chamada para API caso os objetos não estejam com salvos
+        if(conteudoPagina == null) {
+            apiService.getConteudo()
+                    .enqueue(new GetConteudoPaginaCallback(this));
+        } else {
+            preencherConteudo();
+        }
 
-        apiService.getSocials()
-                .enqueue(new GetSocialCallback(this));
+        if(culturas == null) {
+            apiService.getCulturas()
+                    .enqueue(new GetCulturasCallback(this));
+        } else {
+            montarLayoutCulturas();
+        }
 
-        apiService.getMenu()
-                .enqueue(new GetMenuLinksCallback(this));
+        if(areas == null) {
+            apiService.getAreas()
+                    .enqueue(new GetAreasCallback(this));
+        } else {
+            montarLayoutAreas();
+        }
+
+        if(socials == null) {
+            apiService.getSocials()
+                    .enqueue(new GetSocialCallback(this));
+        } else {
+            montarLayoutSocials();
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("conteudoPagina", conteudoPagina);
+        outState.putSerializable("menuLinks", menuLinks);
+        outState.putSerializable("culturas", culturas);
+        outState.putSerializable("areas", areas);
+        outState.putSerializable("socials", socials);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
+
+        if(menuLinks == null){
+            apiService.getMenu()
+                    .enqueue(new GetMenuLinksCallback(this));
+        } else {
+            montarMenu();
+        }
+
         return true;
     }
 
@@ -97,9 +154,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void montarMenu (ArrayList<MenuLink> menuLinks) {
+    /*
+        Monta menu de forma dinâmica
+     */
+    private void montarMenu () {
 
-        this.menuLinks = menuLinks;
+        if(menuLinks == null)
+            return;
 
         int position = 0;
 
@@ -111,7 +172,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void montarLayoutCulturas (ArrayList<Cultura> culturas) {
+    // Os métodos abaixo são responsáveis pela montagem da tela com os dados obtidos através da API
+
+    private void preencherConteudo() {
+
+        if (conteudoPagina == null)
+            return;
+
+        TextView mainTituloCulturas = findViewById(R.id.main_titulo_culturas);
+        mainTituloCulturas.setText(conteudoPagina.getTituloCulturas());
+
+        TextView mainTextoCulturas = findViewById(R.id.main_texto_culturas);
+        mainTextoCulturas.setText(conteudoPagina.getTextoCulturas());
+
+        TextView mainTituloAreas = findViewById(R.id.main_titulo_areas);
+        mainTituloAreas.setText(conteudoPagina.getTituloAreas());
+
+        TextView mainTituloRodape = findViewById(R.id.main_titulo_rodape);
+        mainTituloRodape.setText(conteudoPagina.getTituloRodape());
+
+    }
+
+    private void montarLayoutCulturas () {
+
+        if(culturas == null){
+            return;
+        }
 
         LinearLayout culturasLinearLayout = findViewById(R.id.culturas_linear_layout);
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -144,12 +230,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void montarLayoutAreas (ArrayList<Area> areas){
+    private void montarLayoutAreas (){
+
+        if(areas == null)
+            return;
 
         FlexboxLayout areasContainer = findViewById(R.id.main_areas_flexbox);
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (Area area : areas) {
+
             View view = inflater.inflate(R.layout.area, areasContainer, false);
 
             view.setTag(area);
@@ -202,7 +292,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void montarLayoutSocials(ArrayList<Social> socials) {
+    private void montarLayoutSocials() {
+
+        if(socials == null)
+            return;
+
 
         FlexboxLayout socialsContainer = (FlexboxLayout) findViewById(R.id.main_social_container);
 
@@ -211,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
             ImageButton botao = new ImageButton(this);
 
             botao.setBackgroundColor(Color.TRANSPARENT);
-            botao.setPadding(5,0,5,0);
+            botao.setPadding(10,0,10,10);
             botao.setContentDescription(social.getNome());
             botao.setTag(social);
             botao.setOnClickListener(SocialClickListener);
@@ -226,33 +320,46 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Trata retorno da API
+     */
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals("novas_culturas")) {
+            if (intent.getAction().equals("novo_conteudo")) {
+
+                ConteudoPagina conteudoPagina = (ConteudoPagina) intent.getSerializableExtra("conteudo");
+                MainActivity.this.conteudoPagina = conteudoPagina;
+                preencherConteudo();
+
+            } else if (intent.getAction().equals("novas_culturas")) {
 
                 ArrayList<Cultura> culturas = (ArrayList<Cultura>) intent.getSerializableExtra("culturas");
-                montarLayoutCulturas(culturas);
+                MainActivity.this.culturas = culturas;
+                montarLayoutCulturas();
 
             } else if (intent.getAction().equals("novas_areas")) {
 
                 ArrayList<Area> areas = (ArrayList<Area>) intent.getSerializableExtra("areas");
-                montarLayoutAreas(areas);
+                MainActivity.this.areas = areas;
+                montarLayoutAreas();
 
             } else if (intent.getAction().equals("novas_socials")) {
 
                 ArrayList<Social> socials = (ArrayList<Social>) intent.getSerializableExtra("socials");
-                montarLayoutSocials(socials);
+                MainActivity.this.socials = socials;
+                montarLayoutSocials();
 
             } else if (intent.getAction().equals("novos_links")) {
 
                 ArrayList<MenuLink> links = (ArrayList<MenuLink>) intent.getSerializableExtra("menuLinks");
-                montarMenu(links);
+                MainActivity.this.menuLinks = links;
+                montarMenu();
 
             }
 
-
         }
     };
+
 }

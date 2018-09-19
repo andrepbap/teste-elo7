@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import andrepbap.carreiraselo7.R;
@@ -20,9 +21,13 @@ public class AreasSpinnerAdapter extends BaseAdapter {
     private List<Area> areas;
     private Context context;
 
-    public AreasSpinnerAdapter(List<Area> areas, Context context) {
-        this.areas = areas;
+    public AreasSpinnerAdapter(List<Area> areas,  Context context) {
+
+        // Coloca a dica na primeira posição da lista. Para não impactar na lista principal, criei uma nova e concatenei com a original
+        this.areas = new ArrayList<>();
         this.areas.add(0, new Area(null, "Escolha um departamento", null));
+        this.areas.addAll(areas);
+
         this.context = context;
     }
 
@@ -53,6 +58,7 @@ public class AreasSpinnerAdapter extends BaseAdapter {
         ImageView arrow = row.findViewById(R.id.area_spinner_row_arrow);
         arrow.setVisibility(View.INVISIBLE);
 
+        // Caso a url da imagem seja nula, remove o elemento
         ImageView icon = row.findViewById(R.id.area_spinner_row_icon);
         if(area.getImagem() != null){
             Picasso.with(context)

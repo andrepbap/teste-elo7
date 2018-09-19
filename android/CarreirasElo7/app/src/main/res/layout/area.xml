@@ -29,8 +29,7 @@
         app:layout_constraintEnd_toEndOf="@+id/area_background"
         app:layout_constraintStart_toStartOf="@+id/area_background"
         app:layout_constraintTop_toTopOf="@+id/area_background"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_engenharia" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/area_titulo"
@@ -38,9 +37,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
-        android:text="TextView"
+        android:text="@string/area_row_titulo"
         android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/area_background"
         app:layout_constraintEnd_toEndOf="@+id/area_background"
         app:layout_constraintStart_toStartOf="@+id/area_background"

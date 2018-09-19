@@ -9,43 +9,43 @@ module.exports = function (app) {
 
         var areas = [
             {
-                titulo: "engenharia",
+                titulo: "Engenharia",
                 imagem: app.get("img-url") + "ic-engenharia.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/engenharia/"
             },
             {
-                titulo: "atendimento",
+                titulo: "Atendimento",
                 imagem: app.get("img-url") + "ic-atendimento.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/atendimento/"
             },
             {
-                titulo: "comunicação e marketing",
+                titulo: "Comunicação e marketing",
                 imagem: app.get("img-url") + "ic-comunicacao-mkt.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/comunicacao-e-marketing/"
                 
             },
             {
-                titulo: "desenvolvimento de vendedores",
+                titulo: "Desenvolvimento de vendedores",
                 imagem: app.get("img-url") + "ic-desenvolvimento-vendedores.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/desenvolvimento-de-vendedores/"
             },
             {
-                titulo: "design",
+                titulo: "Design",
                 imagem: app.get("img-url") + "ic-design.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/design/"
             },
             {
-                titulo: "produto",
+                titulo: "Produto",
                 imagem: app.get("img-url") + "ic-produto.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/produto/"
             },
             {
-                titulo: "trust & safety",
+                titulo: "Trust & Safety",
                 imagem: app.get("img-url") + "ic-trustnsafety.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/trust-and-safety/"
             },
             {
-                titulo: "administrativo / financeiro",
+                titulo: "Administrativo / Financeiro",
                 imagem: app.get("img-url") + "ic-adm-financeiro.png",
                 link: "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/administrativo-financeiro/"
             }

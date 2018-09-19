@@ -2,8 +2,12 @@
     <string name="app_name">Carreiras Elo7</string>
     <string name="img_banner">Banner principal</string>
     <string name="titulo">Somos um time fora de série</string>
-    <string name="titulo_areas">CONHEÇA NOSSAS ÁREAS</string>
-    <string name="titulo_culturas">NOSSA CULTURA</string>
-    <string name="texto_culturas">Somos orientados pela satisfação e fidelização de nossos clientes</string>
-    <string name="titulo_rodape">CONECTE-SE COM A GENTE</string>
+    <string name="titulo_areas">areas</string>
+    <string name="titulo_culturas">culturas</string>
+    <string name="texto_culturas">culturas</string>
+    <string name="titulo_rodape">rodape</string>
+    <string name="area_row_titulo">area</string>
+    <string name="area_spinner_titulo">area</string>
+    <string name="cultura_titulo">cultura</string>
+    <string name="cultura_texto">cultura</string>
 </resources>

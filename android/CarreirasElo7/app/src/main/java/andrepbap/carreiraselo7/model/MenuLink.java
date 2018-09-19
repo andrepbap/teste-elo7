@@ -1,6 +1,8 @@
 package andrepbap.carreiraselo7.model;
 
-public class MenuLink {
+import java.io.Serializable;
+
+public class MenuLink implements Serializable {
 
     private String nome;
     private String link;

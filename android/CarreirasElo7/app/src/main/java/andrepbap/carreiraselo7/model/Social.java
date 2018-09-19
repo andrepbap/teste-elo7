@@ -1,6 +1,8 @@
 package andrepbap.carreiraselo7.model;
 
-public class Social {
+import java.io.Serializable;
+
+public class Social implements Serializable {
     private String nome;
     private String imagem;
     private String link;
