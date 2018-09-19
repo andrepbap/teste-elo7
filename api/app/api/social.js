@@ -4,6 +4,8 @@ module.exports = function (app) {
     var api = {};
 
     api.getAll = function (req, res) {
+        
+        console.log("Recebido GET request para /social");
 
         var socials = [
             {

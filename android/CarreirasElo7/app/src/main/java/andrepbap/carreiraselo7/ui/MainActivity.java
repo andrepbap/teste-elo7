@@ -1,16 +1,13 @@
 package andrepbap.carreiraselo7.ui;
 
-import android.support.v7.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,11 +31,14 @@ import andrepbap.carreiraselo7.adapter.AreasSpinnerAdapter;
 import andrepbap.carreiraselo7.app.ApiApplication;
 import andrepbap.carreiraselo7.callback.GetAreasCallback;
 import andrepbap.carreiraselo7.callback.GetCulturasCallback;
+import andrepbap.carreiraselo7.callback.GetMenuLinksCallback;
 import andrepbap.carreiraselo7.callback.GetSocialCallback;
+import andrepbap.carreiraselo7.common.Funcoes;
 import andrepbap.carreiraselo7.component.ApiComponent;
 import andrepbap.carreiraselo7.model.Area;
 import andrepbap.carreiraselo7.model.Cultura;
 import andrepbap.carreiraselo7.model.Social;
+import andrepbap.carreiraselo7.model.MenuLink;
 import andrepbap.carreiraselo7.service.ApiService;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ApiComponent component;
 
     private Menu menu;
+    private ArrayList<MenuLink> menuLinks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +59,11 @@ public class MainActivity extends AppCompatActivity {
         component = app.getComponent();
         component.inject(this);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.logo);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_culturas"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_areas"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_socials"));
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("novos_links"));
 
         apiService.getCulturas()
                 .enqueue(new GetCulturasCallback(this));
@@ -77,25 +73,41 @@ public class MainActivity extends AppCompatActivity {
 
         apiService.getSocials()
                 .enqueue(new GetSocialCallback(this));
+
+        apiService.getMenu()
+                .enqueue(new GetMenuLinksCallback(this));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        MenuItem item = menu.add(Menu.NONE, 1, Menu.NONE, "Engenharia");
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-        MenuItem item2 = menu.add(Menu.NONE, 1, Menu.NONE, "Eventos");
-        item2.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        try {
+            MenuLink menuLink = menuLinks.get(item.getItemId());
+            Funcoes.abrirURL(menuLink.getLink(), this);
 
-            default:
-                return false;
+            return true;
+
+        } catch (IndexOutOfBoundsException exception) {
+            return false;
+        }
+    }
+
+    private void montarMenu (ArrayList<MenuLink> menuLinks) {
+
+        this.menuLinks = menuLinks;
+
+        int position = 0;
+
+        for (MenuLink link : menuLinks) {
+            MenuItem item = menu.add(Menu.NONE, position, Menu.NONE, link.getNome());
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            position ++;
         }
     }
 
@@ -128,11 +140,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Area area = (Area) v.getTag();
-
-            String url = area.getLink();
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+            Funcoes.abrirURL(area.getLink(), MainActivity.this);
         }
     };
 
@@ -175,9 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 String url = adapter.getItem(i).getLink();
 
                 if(url != null) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(url));
-                    startActivity(intent);
+                    Funcoes.abrirURL(url, MainActivity.this);
                 }
             }
 
@@ -192,11 +198,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Social social = (Social) v.getTag();
-
-            String url = social.getLink();
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
+            Funcoes.abrirURL(social.getLink(), MainActivity.this);
         }
     };
 
@@ -242,6 +244,11 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<Social> socials = (ArrayList<Social>) intent.getSerializableExtra("socials");
                 montarLayoutSocials(socials);
+
+            } else if (intent.getAction().equals("novos_links")) {
+
+                ArrayList<MenuLink> links = (ArrayList<MenuLink>) intent.getSerializableExtra("menuLinks");
+                montarMenu(links);
 
             }
 
