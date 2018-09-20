@@ -5,7 +5,7 @@ import android.app.Application;
 import andrepbap.carreiraselo7.component.ApiComponent;
 import andrepbap.carreiraselo7.component.DaggerApiComponent;
 
-public class ApiApplication extends Application {
+public class MyApplication extends android.app.Application {
 
     private ApiComponent component;
 

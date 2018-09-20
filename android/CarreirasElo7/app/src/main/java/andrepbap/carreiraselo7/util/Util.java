@@ -1,10 +1,10 @@
-package andrepbap.carreiraselo7.common;
+package andrepbap.carreiraselo7.util;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-public class Funcoes {
+public class Util {
 
     public static void abrirURL (String url, Context context){
         Intent intent = new Intent(Intent.ACTION_VIEW);

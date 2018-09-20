@@ -54,12 +54,16 @@
 
                 <Spinner
                     android:id="@+id/main_areas_spinner"
-                    android:layout_width="300dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginStart="32dp"
                     android:background="@android:drawable/spinner_dropdown_background"
                     app:layout_constraintBottom_toTopOf="@+id/culturas_linear_layout"
-                    app:layout_constraintEnd_toEndOf="@+id/main_imagem_titulo"
-                    app:layout_constraintStart_toStartOf="@+id/main_imagem_titulo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_imagem_titulo" />
 
                 <LinearLayout

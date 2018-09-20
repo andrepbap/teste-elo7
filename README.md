@@ -18,6 +18,10 @@ Com tudo configurado, acesse a pasta do projeto a partir do terminal e entre com
 
 O endereço de acesso à API será mostrado na última linha do console. A API também ficará disponível em http://localhost:3000
 
+Para modificar os objetos retornados, basta editá-los em api/app/api.
+
+A documentação da API está disponível em api/apidoc.
+
 ## Execução do aplicativo
 
 Após importar o projeto Android, será necessário indicar o endereço da API para o módulo que cria o serviço HTTP. Para isso, substitua o conteúdo de "baseUrl()" no arquivo ApiModule.java localizado no pacote "module", pelo endereço obtido no momento da execução do servidor, conforme o código abaixo:

@@ -18,7 +18,7 @@ module.exports = function (app) {
      *     [
      *         {
      *             "nome": "facebook",
-     *             "imagem": "@drawable/facebook"
+     *             "imagem": "http://localhost:3000/facebook.png"
      *             "link": "https://facebook.com/elo7"
      *         },
      *         ...

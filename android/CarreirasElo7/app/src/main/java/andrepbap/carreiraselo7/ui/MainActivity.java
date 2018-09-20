@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.squareup.picasso.Picasso;
@@ -29,13 +28,13 @@ import javax.inject.Inject;
 
 import andrepbap.carreiraselo7.R;
 import andrepbap.carreiraselo7.adapter.AreasSpinnerAdapter;
-import andrepbap.carreiraselo7.app.ApiApplication;
+import andrepbap.carreiraselo7.app.MyApplication;
 import andrepbap.carreiraselo7.callback.GetAreasCallback;
 import andrepbap.carreiraselo7.callback.GetConteudoPaginaCallback;
 import andrepbap.carreiraselo7.callback.GetCulturasCallback;
 import andrepbap.carreiraselo7.callback.GetMenuLinksCallback;
 import andrepbap.carreiraselo7.callback.GetSocialCallback;
-import andrepbap.carreiraselo7.common.Funcoes;
+import andrepbap.carreiraselo7.util.Util;
 import andrepbap.carreiraselo7.component.ApiComponent;
 import andrepbap.carreiraselo7.model.Area;
 import andrepbap.carreiraselo7.model.ConteudoPagina;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ApiApplication app = (ApiApplication) getApplication();
+        MyApplication app = (MyApplication) getApplication();
         component = app.getComponent();
         component.inject(this);
 
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
             MenuLink menuLink = menuLinks.get(item.getItemId());
-            Funcoes.abrirURL(menuLink.getLink(), this);
+            Util.abrirURL(menuLink.getLink(), this);
 
             return true;
 
@@ -226,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Area area = (Area) v.getTag();
-            Funcoes.abrirURL(area.getLink(), MainActivity.this);
+            Util.abrirURL(area.getLink(), MainActivity.this);
         }
     };
 
@@ -251,44 +250,50 @@ public class MainActivity extends AppCompatActivity {
             ImageView imagem = view.findViewById(R.id.area_imagem);
             Picasso.with(this)
                     .load(area.getImagem())
-                    .resize(150,150)
+                    .resize(130,130)
                     .centerInside()
                     .into(imagem);
 
             areasContainer.addView(view);
         }
 
-        Spinner areasSpinner = findViewById(R.id.main_areas_spinner);
+        final Spinner areasSpinner = findViewById(R.id.main_areas_spinner);
         areasSpinner.setAdapter(new AreasSpinnerAdapter(areas, this));
 
-        areasSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        areasSpinner.post(new Runnable() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void run() {
+                areasSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                ImageView arrow = view.findViewById(R.id.area_spinner_row_arrow);
-                arrow.setVisibility(View.VISIBLE);
+                        ImageView arrow = view.findViewById(R.id.area_spinner_row_arrow);
+                        arrow.setVisibility(View.VISIBLE);
 
-                AreasSpinnerAdapter adapter = (AreasSpinnerAdapter) adapterView.getAdapter();
+                        AreasSpinnerAdapter adapter = (AreasSpinnerAdapter) adapterView.getAdapter();
 
-                String url = adapter.getItem(i).getLink();
+                        String url = adapter.getItem(i).getLink();
 
-                if(url != null) {
-                    Funcoes.abrirURL(url, MainActivity.this);
-                }
-            }
+                        if (url != null) {
+                            Util.abrirURL(url, MainActivity.this);
+                        }
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
 
+                    }
+                });
             }
         });
+
     }
 
     private View.OnClickListener SocialClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Social social = (Social) v.getTag();
-            Funcoes.abrirURL(social.getLink(), MainActivity.this);
+            Util.abrirURL(social.getLink(), MainActivity.this);
         }
     };
 
@@ -312,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
             Picasso.with(this)
                     .load(social.getImagem())
-                    .resize(100,100)
+                    .resize(70,70)
                     .centerInside()
                     .into(botao);
 

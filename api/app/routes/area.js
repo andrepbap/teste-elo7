@@ -9,7 +9,8 @@ module.exports = function (app) {
      * @apiPermission usuario
      *
      * @apiSuccess {String}   titulo            título da área.
-     * @apiSuccess {String}   imagem            imagem da área.
+     * @apiSuccess {String}   imagem            url da imagem.
+     * @apiSuccess {String}   link            link da área.
      * @apiExample Example usage:
      * curl -X GET http://localhost:3000/area
      *
@@ -17,8 +18,9 @@ module.exports = function (app) {
      *     HTTP/1.1 200 OK
      *     [
      *         {
-     *             "titulo": "engenharia",
-     *             "imagem": "@drawable/ic_engenharia"
+     *             "titulo": "Engenharia",
+     *             "imagem": "http://localhost:3000/ic-engenharia.png"
+     *             "link": "http://carreira.elo7.com.br/clkn/http/carreira.elo7.com.br/engenharia/"
      *         },
      *         ...
      *     ]

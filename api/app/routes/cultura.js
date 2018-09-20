@@ -10,7 +10,7 @@ module.exports = function (app) {
      *
      * @apiSuccess {String}   titulo            título da cultura.
      * @apiSuccess {String}   texto            texto da cultura.
-     * @apiSuccess {String}   imagem            imagem da cultura.
+     * @apiSuccess {String}   imagem            url da imagem.
      * @apiExample Example usage:
      * curl -X GET http://localhost:3000/cultura
      *
@@ -20,7 +20,7 @@ module.exports = function (app) {
      *         {
      *             "titulo": "criatividade",
      *             "texto": "Estimulamos a intervenção humana",
-     *             "imagem": "@drawable/criatividade"
+     *             "imagem": "http://localhost:3000/cultura.png"
      *         },
      *         ...
      *     ]
