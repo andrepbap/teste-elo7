@@ -13,21 +13,29 @@ import retrofit2.Response;
 public class GetConteudoPaginaCallback implements Callback<ConteudoPagina>{
 
     private Context context;
+    private Intent intent;
+    private LocalBroadcastManager localBroadcastManager;
 
     public GetConteudoPaginaCallback(Context context) {
         this.context = context;
+        this.intent = new Intent();
+        this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     @Override
     public void onResponse(Call<ConteudoPagina> call, Response<ConteudoPagina> response) {
+
         if(response.isSuccessful()){
 
             ConteudoPagina conteudo = response.body();
 
-            Intent intent = new Intent("novo_conteudo");
+            intent.setAction("novo_conteudo");
             intent.putExtra("conteudo", conteudo);
+            localBroadcastManager.sendBroadcast(intent);
 
-            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+        } else {
+
+            intent.setAction("erro_conteudo");
             localBroadcastManager.sendBroadcast(intent);
         }
     }
@@ -35,5 +43,8 @@ public class GetConteudoPaginaCallback implements Callback<ConteudoPagina>{
     @Override
     public void onFailure(Call<ConteudoPagina> call, Throwable t) {
         Log.e("GetConteudoCallback", t.getMessage());
+
+        intent.setAction("erro_conteudo");
+        localBroadcastManager.sendBroadcast(intent);
     }
 }

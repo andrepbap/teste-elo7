@@ -15,9 +15,13 @@ import retrofit2.Response;
 public class GetAreasCallback implements Callback<ArrayList<Area>>{
 
     private Context context;
+    private Intent intent;
+    private LocalBroadcastManager localBroadcastManager;
 
     public GetAreasCallback(Context context) {
         this.context = context;
+        this.intent = new Intent();
+        this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     @Override
@@ -26,10 +30,11 @@ public class GetAreasCallback implements Callback<ArrayList<Area>>{
 
             ArrayList<Area> areas = response.body();
 
-            Intent intent = new Intent("novas_areas");
+            intent.setAction("novas_areas");
             intent.putExtra("areas", areas);
-
-            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+            localBroadcastManager.sendBroadcast(intent);
+        } else {
+            intent.setAction("erro_areas");
             localBroadcastManager.sendBroadcast(intent);
         }
     }
@@ -37,5 +42,8 @@ public class GetAreasCallback implements Callback<ArrayList<Area>>{
     @Override
     public void onFailure(Call<ArrayList<Area>> call, Throwable t) {
         Log.e("GetAreasCallback", t.getMessage());
+
+        intent.setAction("erro_areas");
+        localBroadcastManager.sendBroadcast(intent);
     }
 }

@@ -15,9 +15,13 @@ import retrofit2.Response;
 public class GetCulturasCallback implements Callback<ArrayList<Cultura>>{
 
     private Context context;
+    private Intent intent;
+    private LocalBroadcastManager localBroadcastManager;
 
     public GetCulturasCallback (Context context) {
         this.context = context;
+        this.intent = new Intent();
+        this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     @Override
@@ -26,10 +30,12 @@ public class GetCulturasCallback implements Callback<ArrayList<Cultura>>{
 
             ArrayList<Cultura> culturas = response.body();
 
-            Intent intent = new Intent("novas_culturas");
+            intent.setAction("novas_culturas");
             intent.putExtra("culturas", culturas);
+            localBroadcastManager.sendBroadcast(intent);
+        } else {
 
-            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+            intent.setAction("erro_culturas");
             localBroadcastManager.sendBroadcast(intent);
         }
     }
@@ -37,5 +43,8 @@ public class GetCulturasCallback implements Callback<ArrayList<Cultura>>{
     @Override
     public void onFailure(Call<ArrayList<Cultura>> call, Throwable t) {
         Log.e("GetCulturasCallback", t.getMessage());
+
+        intent.setAction("erro_culturas");
+        localBroadcastManager.sendBroadcast(intent);
     }
 }

@@ -13,7 +13,7 @@ public class ApiModule {
     @Provides
     public ApiService getApiService () {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.0.6:3000")
+                .baseUrl("http://192.168.0.124:3000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

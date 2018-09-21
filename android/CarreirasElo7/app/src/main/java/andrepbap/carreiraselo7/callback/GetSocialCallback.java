@@ -15,9 +15,13 @@ import retrofit2.Response;
 public class GetSocialCallback implements Callback<ArrayList<Social>>{
 
     private Context context;
+    private Intent intent;
+    private LocalBroadcastManager localBroadcastManager;
 
     public GetSocialCallback(Context context) {
         this.context = context;
+        this.intent = new Intent();
+        this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     @Override
@@ -26,10 +30,11 @@ public class GetSocialCallback implements Callback<ArrayList<Social>>{
 
             ArrayList<Social> socials = response.body();
 
-            Intent intent = new Intent("novas_socials");
+            intent.setAction("novas_socials");
             intent.putExtra("socials", socials);
-
-            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+            localBroadcastManager.sendBroadcast(intent);
+        } else {
+            intent.setAction("erro_socials");
             localBroadcastManager.sendBroadcast(intent);
         }
     }
@@ -37,5 +42,8 @@ public class GetSocialCallback implements Callback<ArrayList<Social>>{
     @Override
     public void onFailure(Call<ArrayList<Social>> call, Throwable t) {
         Log.e("GetSocialsCallback", t.getMessage());
+
+        intent.setAction("erro_socials");
+        localBroadcastManager.sendBroadcast(intent);
     }
 }

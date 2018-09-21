@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -70,10 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novo_conteudo"));
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("erro_conteudo"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_culturas"));
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("erro_culturas"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_areas"));
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("erro_areas"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novas_socials"));
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("erro_socials"));
         localBroadcastManager.registerReceiver(receiver, new IntentFilter("novos_links"));
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter("erro_links"));
 
         // Capta savedInstanceState para não precisar chamar a api novamente toda vez que a tela for remontada
         if (savedInstanceState != null) {
@@ -326,42 +335,117 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-        Trata retorno da API
+        Trata retorno da API. No caso de erro, é retornado o objeto salvo de uma tentativa anterior
+        que tenha sido bem sucedida.
      */
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            // Instancia Gson e SharedPreferences para ler e armazenar os objetos retornados
+            Gson gson = new Gson();
+            SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            // Conteúdo
             if (intent.getAction().equals("novo_conteudo")) {
 
                 ConteudoPagina conteudoPagina = (ConteudoPagina) intent.getSerializableExtra("conteudo");
                 MainActivity.this.conteudoPagina = conteudoPagina;
                 preencherConteudo();
 
-            } else if (intent.getAction().equals("novas_culturas")) {
+                editor.putString("conteudoPagina", gson.toJson(conteudoPagina));
+                editor.commit();
+
+            } else if (intent.getAction().equals("erro_conteudo")) {
+
+                String json = sharedPref.getString("conteudoPagina", "");
+
+                if(json != null) {
+                    MainActivity.this.conteudoPagina = gson.fromJson(json, ConteudoPagina.class);
+                    preencherConteudo();
+                }
+
+            }
+
+
+            // Culturas
+            else if (intent.getAction().equals("novas_culturas")) {
 
                 ArrayList<Cultura> culturas = (ArrayList<Cultura>) intent.getSerializableExtra("culturas");
                 MainActivity.this.culturas = culturas;
                 montarLayoutCulturas();
 
-            } else if (intent.getAction().equals("novas_areas")) {
+                editor.putString("culturas", gson.toJson(culturas));
+                editor.commit();
+
+            } else if (intent.getAction().equals("erro_culturas")) {
+
+                String json = sharedPref.getString("culturas", "");
+
+                if(json != null) {
+                    MainActivity.this.culturas = gson.fromJson(json, new TypeToken<List<Cultura>>(){}.getType());
+                    montarLayoutCulturas();
+                }
+            }
+
+            // Areas
+            else if (intent.getAction().equals("novas_areas")) {
 
                 ArrayList<Area> areas = (ArrayList<Area>) intent.getSerializableExtra("areas");
                 MainActivity.this.areas = areas;
                 montarLayoutAreas();
 
-            } else if (intent.getAction().equals("novas_socials")) {
+                editor.putString("areas", gson.toJson(areas));
+                editor.commit();
+
+            } else if (intent.getAction().equals("erro_areas")) {
+
+                String json = sharedPref.getString("areas", "");
+
+                if(json != null) {
+                    MainActivity.this.areas = gson.fromJson(json, new TypeToken<List<Area>>(){}.getType());
+                    montarLayoutAreas();
+                }
+            }
+
+            // Socials
+            else if (intent.getAction().equals("novas_socials")) {
 
                 ArrayList<Social> socials = (ArrayList<Social>) intent.getSerializableExtra("socials");
                 MainActivity.this.socials = socials;
                 montarLayoutSocials();
 
-            } else if (intent.getAction().equals("novos_links")) {
+                editor.putString("socials", gson.toJson(socials));
+                editor.commit();
+
+            } else if (intent.getAction().equals("erro_socials")) {
+
+                String json = sharedPref.getString("socials", "");
+
+                if(json != null) {
+                    MainActivity.this.socials = gson.fromJson(json, new TypeToken<List<Social>>(){}.getType());
+                    montarLayoutSocials();
+                }
+            }
+
+            // Menu
+            else if (intent.getAction().equals("novos_links")) {
 
                 ArrayList<MenuLink> links = (ArrayList<MenuLink>) intent.getSerializableExtra("menuLinks");
                 MainActivity.this.menuLinks = links;
                 montarMenu();
 
+                editor.putString("menuLinks", gson.toJson(links));
+                editor.commit();
+            } else if (intent.getAction().equals("erro_links")) {
+
+                String json = sharedPref.getString("menuLinks", "");
+
+                if(json != null) {
+                    MainActivity.this.menuLinks = gson.fromJson(json, new TypeToken<List<MenuLink>>(){}.getType());
+                    montarMenu();
+                }
             }
 
         }
